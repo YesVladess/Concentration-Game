@@ -9,8 +9,13 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+    
     lazy var game = Concentration(numberOfPairsOfCards: (cardButtons.count + 1) / 2)
+    
+    lazy var emojiChoices = chooseTheme()
+    
+    // init Dictionary
+    var emoji = [Int : String]()
     
     var flipCount = 0 {
         didSet {
@@ -21,6 +26,10 @@ class ViewController: UIViewController {
     @IBAction func newGamePressed(_ sender: UIButton) {
         game.ended()
         updateViewFromModel()
+        // Forgot emoji liked to cards
+        emoji = [:]
+        // Choose new theme for a brand new game
+        emojiChoices = chooseTheme()
         flipCount = 0
     }
     
@@ -51,13 +60,7 @@ class ViewController: UIViewController {
         }
     }
     
-    // init Dictionary
-    var emoji = [Int : String]()
-    
-    
     func emoji( for card : Card) -> String {
-        
-        var emojiChoices = chooseTheme()
         
         if emoji[card.identifier] == nil , emojiChoices.count > 0 {
             let randomIndex = Int.random(in: 0..<emojiChoices.count)
