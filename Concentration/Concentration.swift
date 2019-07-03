@@ -14,6 +14,8 @@ class Concentration{
     
     var indexOfOneAndOnlyCardFaceUp: Int?
     
+    var score : Int
+    
     func chooseCard(at index: Int) {
         
         if !cards[index].isMatched {
@@ -22,6 +24,7 @@ class Concentration{
                 if cards[matchIndex].identifier == cards[index].identifier {
                     cards[matchIndex].isMatched = true
                     cards[index].isMatched = true
+                    score = score + 2
                 }
                 cards[index].isFaceUp = true
                 indexOfOneAndOnlyCardFaceUp = nil
@@ -44,6 +47,7 @@ class Concentration{
             cards[flipDownIndex].isMatched = false
             indexOfOneAndOnlyCardFaceUp = nil
             mixCards()
+            score = 0
         }
     }
     
@@ -70,6 +74,7 @@ class Concentration{
             cards.append(card)
             //cards += [card, card]
         }
+        score = 0
         mixCards()
     }
 }

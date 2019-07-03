@@ -17,23 +17,17 @@ class ViewController: UIViewController {
     // init Dictionary
     var emoji = [Int : String]()
     
-    var flipCount = 0 {
-        didSet {
-            flipCountLabel.text = "Попыток : \(flipCount)"
-        }
-    }
-    
     @IBAction func newGamePressed(_ sender: UIButton) {
+        
         game.ended()
-        updateViewFromModel()
         // Forgot emoji liked to cards
         emoji = [:]
         // Choose new theme for a brand new game
         emojiChoices = chooseTheme()
-        flipCount = 0
+        updateViewFromModel()
     }
     
-    @IBOutlet weak var flipCountLabel: UILabel!
+    @IBOutlet weak var scoreLabel: UILabel!
     
     @IBOutlet var cardButtons: [UIButton]!
     
@@ -51,13 +45,15 @@ class ViewController: UIViewController {
             if card.isFaceUp {
                 button.setTitle(emoji(for: card), for: UIControl.State.normal)
                 button.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
-                flipCount += 1
             }
             else {
                 button.setTitle("", for: UIControl.State.normal)
-                button.backgroundColor = card.isMatched ? #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0) : #colorLiteral(red: 1, green: 0.5781051517, blue: 0, alpha: 1)
+                if card.isMatched {
+                    button.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+                } else { button.backgroundColor = #colorLiteral(red: 1, green: 0.5781051517, blue: 0, alpha: 1) }
             }
         }
+        scoreLabel.text = "Счет : \(game.score)"
     }
     
     func emoji( for card : Card) -> String {
@@ -80,6 +76,7 @@ class ViewController: UIViewController {
         emojiSets.append(["🐰","🦊","🐷","🐵","🐮","🐸","🐤","🐼"])
         emojiSets.append(["😎","😳","😣","😡","🤩","🙄","😊","🥺","😓","😬"])
         emojiSets.append(["🇦🇺","🇦🇲","🇧🇷","🇧🇮","🇨🇳","🇺🇸","🇨🇿","🇱🇨","🇯🇵","🇷🇺"])
+        emojiSets.append(["🚗","🚕","🚙","🚌","🚎","🏎","🚓","🚑","🚜","🚛","🚒","🚐","🚚"])
         
         let theme : [String] = emojiSets[Int.random(in: 0..<emojiSets.count)]
             
