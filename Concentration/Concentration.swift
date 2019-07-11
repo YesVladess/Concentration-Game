@@ -92,5 +92,6 @@ class Concentration{
         }
         score = 0
         mixCards()
+        
     }
 }
