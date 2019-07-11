@@ -10,7 +10,11 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    lazy var game = Concentration(numberOfPairsOfCards: (cardButtons.count + 1) / 2)
+    lazy var game = Concentration(numberOfPairsOfCards: numberOfPairsOfCards)
+    
+    var numberOfPairsOfCards: Int {
+        return (cardButtons.count + 1) / 2
+    }
     
     lazy var emojiChoices = chooseTheme()
     
@@ -20,7 +24,7 @@ class ViewController: UIViewController {
     @IBAction func newGamePressed(_ sender: UIButton) {
         
         game.ended()
-        // Forgot emoji liked to cards
+        // Forgot emoji linked to cards
         emoji = [:]
         // Choose new theme for a brand new game
         emojiChoices = chooseTheme()
