@@ -10,38 +10,37 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    lazy var game = Concentration(numberOfPairsOfCards: numberOfPairsOfCards)
+    private lazy var game = Concentration(numberOfPairsOfCards: numberOfPairsOfCards)
     
     var numberOfPairsOfCards: Int {
         return (cardButtons.count + 1) / 2
     }
     
-    lazy var emojiChoices = chooseTheme()
+    @IBOutlet private weak var scoreLabel: UILabel!
     
-    // init Dictionary
-    var emoji = [Int : String]()
+    @IBOutlet private var cardButtons: [UIButton]!
     
-    @IBAction func newGamePressed(_ sender: UIButton) {
-        
+    @IBAction private func touchCard(_ sender: UIButton) {
+        let cardNumber = cardButtons.firstIndex(of: sender)!
+        game.chooseCard(at: cardNumber)
+        updateViewFromModel()
+    }
+    
+    @IBAction private func newGamePressed(_ sender: UIButton) {
         game.ended()
-        // Forgot emoji linked to cards
+        // Forgot the emojis linked to the cards
         emoji = [:]
         // Choose new theme for a brand new game
         emojiChoices = chooseTheme()
         updateViewFromModel()
     }
     
-    @IBOutlet weak var scoreLabel: UILabel!
+    private lazy var emojiChoices = chooseTheme()
     
-    @IBOutlet var cardButtons: [UIButton]!
+    // init Dictionary
+    private var emoji = [Int : String]()
     
-    @IBAction func touchCard(_ sender: UIButton) {
-        let cardNumber = cardButtons.firstIndex(of: sender)!
-        game.chooseCard(at: cardNumber)
-        updateViewFromModel()
-    }
-    
-    func updateViewFromModel() {
+    private func updateViewFromModel() {
         for index in cardButtons.indices {
             
             let button = cardButtons[index]
@@ -60,7 +59,7 @@ class ViewController: UIViewController {
         scoreLabel.text = "Счет : \(game.score)"
     }
     
-    func emoji( for card : Card) -> String {
+    private func emoji( for card : Card) -> String {
         
         if emoji[card.identifier] == nil , emojiChoices.count > 0 {
             let randomIndex = Int.random(in: 0..<emojiChoices.count)
@@ -70,7 +69,7 @@ class ViewController: UIViewController {
         return emoji[card.identifier] ?? "?"
     }
     
-    func chooseTheme() -> [String] {
+    private func chooseTheme() -> [String] {
         
         // Emoji sets
         var emojiSets = [[String]]()

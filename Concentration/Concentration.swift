@@ -10,9 +10,11 @@ import Foundation
 
 class Concentration{
     
-    var cards = [Card]()
+    private(set) var cards = [Card]()
     
-    var indexOfOneAndOnlyCardFaceUp: Int? {
+    private(set) var score : Int
+    
+    private var indexOfOneAndOnlyCardFaceUp: Int? {
         get {
             var foundIndex: Int?
             for index in cards.indices {
@@ -35,9 +37,10 @@ class Concentration{
         }
     }
     
-    var score : Int
-    
     func chooseCard(at index: Int) {
+        
+        // Way to protect your API!
+        assert(cards.indices.contains(index), "Conectration.chooseCard(at: \(index)) Chosen index out of the cards array!")
         
         if !cards[index].isMatched {
             // check if one card isFaceUp
@@ -65,7 +68,7 @@ class Concentration{
         }
     }
     
-    func checkForMissedMatch (pairIdenifier seenPairIdentifier : Int) {
+    private func checkForMissedMatch (pairIdenifier seenPairIdentifier : Int) {
         var count = 0
         for flipDownIndex in cards.indices {
             if cards[flipDownIndex].identifier == seenPairIdentifier, cards[flipDownIndex].wasSeen == true {
@@ -100,6 +103,9 @@ class Concentration{
     }
     
     init (numberOfPairsOfCards: Int) {
+        
+        assert(numberOfPairsOfCards > 0, "Concntration.init: \(numberOfPairsOfCards)) You must at least have one pair of cards!")
+        
         for _ in 1...numberOfPairsOfCards {
             let card = Card()
             cards.append(card)
