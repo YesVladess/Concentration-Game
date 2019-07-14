@@ -10,7 +10,14 @@ import UIKit
 
 class ViewController: UIViewController {
     
+    // init game
     private lazy var game = Concentration(numberOfPairsOfCards: numberOfPairsOfCards)
+    
+    // init array of emoji
+    private lazy var emojiChoices = chooseTheme()
+    
+    // init Dictionary
+    private var emoji = [Int : String]()
     
     var numberOfPairsOfCards: Int {
         return (cardButtons.count + 1) / 2
@@ -35,11 +42,6 @@ class ViewController: UIViewController {
         updateViewFromModel()
     }
     
-    private lazy var emojiChoices = chooseTheme()
-    
-    // init Dictionary
-    private var emoji = [Int : String]()
-    
     private func updateViewFromModel() {
         for index in cardButtons.indices {
             
@@ -62,8 +64,7 @@ class ViewController: UIViewController {
     private func emoji( for card : Card) -> String {
         
         if emoji[card.identifier] == nil , emojiChoices.count > 0 {
-            let randomIndex = Int.random(in: 0..<emojiChoices.count)
-            emoji[card.identifier] = emojiChoices.remove(at: randomIndex)
+            emoji[card.identifier] = emojiChoices.remove(at: emojiChoices.count.randomNumber)
         }
         
         return emoji[card.identifier] ?? "?"
@@ -84,6 +85,20 @@ class ViewController: UIViewController {
         let theme : [String] = emojiSets[Int.random(in: 0..<emojiSets.count)]
             
         return theme
+    }
+}
+
+extension Int {
+    var randomNumber: Int {
+        if self > 0 {
+            return Int.random(in: 0..<self)
+        }
+        else if self < 0 {
+            return -Int.random(in: 0..<abs(self))
+        }
+        else  {
+            return 0
+        }
     }
 }
 
