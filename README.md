@@ -1,2 +1,2 @@
 # Concentration-Game
-Learning Swift And MVC
+Learning Swift and IOS apps development
