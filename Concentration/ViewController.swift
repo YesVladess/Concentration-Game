@@ -17,7 +17,7 @@ class ViewController: UIViewController {
     private lazy var emojiChoices = chooseTheme()
     
     // init Dictionary
-    private var emoji = [Int : String]()
+    private var emoji = [Card : String]()
     
     var numberOfPairsOfCards: Int {
         return (cardButtons.count + 1) / 2
@@ -63,11 +63,11 @@ class ViewController: UIViewController {
     
     private func emoji( for card : Card) -> String {
         
-        if emoji[card.identifier] == nil , emojiChoices.count > 0 {
-            emoji[card.identifier] = emojiChoices.remove(at: emojiChoices.count.randomNumber)
+        if emoji[card] == nil , emojiChoices.count > 0 {
+            emoji[card] = emojiChoices.remove(at: emojiChoices.count.randomNumber)
         }
         
-        return emoji[card.identifier] ?? "?"
+        return emoji[card] ?? "?"
     }
     
     private func chooseTheme() -> [String] {
