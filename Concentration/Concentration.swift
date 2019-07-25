@@ -85,10 +85,10 @@ struct Concentration {
             cards[flipDownIndex].isFaceUp = false
             cards[flipDownIndex].isMatched = false
             cards[flipDownIndex].wasSeen = false
-            indexOfOneAndOnlyCardFaceUp = nil
-            cards.shuffle()
-            score = 0
         }
+        indexOfOneAndOnlyCardFaceUp = nil
+        cards.shuffle()
+        score = 0
     }
     
     init (numberOfPairsOfCards: Int) {
