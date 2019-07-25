@@ -23,7 +23,11 @@ class ViewController: UIViewController {
         return (cardButtons.count + 1) / 2
     }
     
-    @IBOutlet private weak var scoreLabel: UILabel!
+    @IBOutlet private weak var scoreLabel: UILabel! {
+        didSet {
+        updateGameScoreLabel()
+        }
+    }
     
     @IBOutlet private var cardButtons: [UIButton]!
     
@@ -37,9 +41,18 @@ class ViewController: UIViewController {
         game.ended()
         // Forgot the emojis linked to the cards
         emoji = [:]
+        updateViewFromModel()
         // Choose new theme for a brand new game
         emojiChoices = chooseTheme()
-        updateViewFromModel()
+    }
+    
+    private func updateGameScoreLabel() {
+        let attributes : [NSAttributedString.Key : Any ] = [
+            .strokeWidth : 5.0,
+            .strokeColor : #colorLiteral(red: 1, green: 0.5781051517, blue: 0, alpha: 1)
+        ]
+        let attributedString = NSAttributedString(string: "Счет : \(game.score)", attributes: attributes)
+        scoreLabel.attributedText = attributedString
     }
     
     private func updateViewFromModel() {
@@ -57,8 +70,9 @@ class ViewController: UIViewController {
                     button.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
                 } else { button.backgroundColor = #colorLiteral(red: 1, green: 0.5781051517, blue: 0, alpha: 1) }
             }
+            updateGameScoreLabel()
         }
-        scoreLabel.text = "Счет : \(game.score)"
+        
     }
     
     private func emoji( for card : Card) -> String {
