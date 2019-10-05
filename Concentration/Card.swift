@@ -6,16 +6,7 @@
 //  Copyright © 2019 Влад Кононенко. All rights reserved.
 //
 
-import Foundation
-
-struct Card: Hashable
-{
-    // deprecated
-    //var hashValue: Int { return identifier }
-    
-    static func == (lhs: Card, rhs: Card) -> Bool {
-        return lhs.identifier == rhs.identifier
-    }
+struct Card {
     
     var isFaceUp = false
     var isMatched = false
@@ -25,13 +16,25 @@ struct Card: Hashable
     private static var identifierFactory = 0
     
     private static func getUniqueIdentifier() -> Int {
-        
         identifierFactory += 1
         return identifierFactory
         
     }
     
+}
+
+extension Card: Hashable {
+    
+    static func == (lhs: Card, rhs: Card) -> Bool {
+        return lhs.identifier == rhs.identifier
+    }
+    
+}
+
+extension Card {
+    
     init() {
         self.identifier = Card.getUniqueIdentifier()
     }
+    
 }
