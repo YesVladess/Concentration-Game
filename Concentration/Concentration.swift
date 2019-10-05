@@ -10,10 +10,9 @@ import Foundation
 
 struct Concentration {
     
+    // MARK: - Properties
     private(set) var cards = [Card]()
-    
     private(set) var score : Int
-    
     private var indexOfOneAndOnlyCardFaceUp: Int? {
         get {
             return cards.indices.filter { cards[$0].isFaceUp }.oneAndOnly
@@ -22,10 +21,36 @@ struct Concentration {
             for index in cards.indices {
                 cards[index].isFaceUp = (index == newValue)
             }
-            
         }
     }
     
+    // MARK: - Init
+    init(numberOfPairsOfCards: Int) {
+        assert(numberOfPairsOfCards > 0, "Concntration.init: \(numberOfPairsOfCards)) You must at least have one pair of cards!")
+        
+        for _ in 1...numberOfPairsOfCards {
+            let card = Card()
+            cards.append(card)
+            cards.append(card)
+        }
+        score = 0
+        cards.shuffle()
+    }
+    
+    // MARK: - Private methods
+    private mutating func checkForMissedMatch (pairIdenifier seenPairIdentifier : Card) {
+        var count = 0
+        for flipDownIndex in cards.indices {
+            if cards[flipDownIndex] == seenPairIdentifier, cards[flipDownIndex].wasSeen == true {
+                count += 1
+            }
+        }
+        if count == 2 {
+            score = score - 1
+        }
+    }
+    
+    // MARK: - Public methods
     mutating func chooseCard(at index: Int) {
         
         // Way to protect your API!
@@ -57,18 +82,6 @@ struct Concentration {
         }
     }
     
-    private mutating func checkForMissedMatch (pairIdenifier seenPairIdentifier: Card) {
-        var count = 0
-        for flipDownIndex in cards.indices {
-            if cards[flipDownIndex] == seenPairIdentifier, cards[flipDownIndex].wasSeen == true {
-                count += 1
-            }
-        }
-        if count == 2 {
-            score = score - 1
-        }
-    }
-    
     mutating func ended() {
         for flipDownIndex in cards.indices {
             cards[flipDownIndex].isFaceUp = false
@@ -80,19 +93,6 @@ struct Concentration {
         score = 0
     }
     
-    init (numberOfPairsOfCards: Int) {
-        
-        assert(numberOfPairsOfCards > 0, "Concntration.init: \(numberOfPairsOfCards)) You must at least have one pair of cards!")
-        
-        for _ in 1...numberOfPairsOfCards {
-            let card = Card()
-            cards.append(card)
-            cards.append(card)
-        }
-        score = 0
-        cards.shuffle()
-        
-    }
 }
 
 extension Collection {
@@ -100,4 +100,5 @@ extension Collection {
     var oneAndOnly : Element? {
         return count == 1 ? first : nil
     }
+    
 }

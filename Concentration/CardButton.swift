@@ -6,7 +6,6 @@
 //  Copyright © 2019 Влад Кононенко. All rights reserved.
 //
 
-import Foundation
 import UIKit
 
 class CardButton: UIButton {
