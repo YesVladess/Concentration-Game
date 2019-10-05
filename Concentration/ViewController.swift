@@ -25,25 +25,40 @@ class ViewController: UIViewController {
     
     @IBOutlet private weak var scoreLabel: UILabel! {
         didSet {
-        updateGameScoreLabel()
+            updateGameScoreLabel()
         }
     }
     
-    @IBOutlet private var cardButtons: [UIButton]!
-    
-    @IBAction private func touchCard(_ sender: UIButton) {
-        let cardNumber = cardButtons.firstIndex(of: sender)!
-        game.chooseCard(at: cardNumber)
+    @IBOutlet private var cardButtons: [CardButton]!
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupEmojiForCards()
         updateViewFromModel()
     }
+
+    private func setupEmojiForCards() {
+        cardButtons.enumerated().forEach { (index, button) in
+            let card = game.cards[index]
+            button.emoji = self.emoji(for: card)
+        }
+    }
     
-    @IBAction private func newGamePressed(_ sender: UIButton) {
+    @IBAction private func touchCard(_ sender: CardButton) {
+        if let cardNumber = cardButtons.firstIndex(of: sender) {
+            game.chooseCard(at: cardNumber)
+            updateViewFromModel()
+        }
+    }
+    
+    @IBAction private func newGamePressed(_ sender: CardButton) {
         game.ended()
         // Forgot the emojis linked to the cards
         emoji = [:]
-        updateViewFromModel()
         // Choose new theme for a brand new game
         emojiChoices = chooseTheme()
+        setupEmojiForCards()
+        updateViewFromModel()
     }
     
     private func updateGameScoreLabel() {
@@ -56,26 +71,13 @@ class ViewController: UIViewController {
     }
     
     private func updateViewFromModel() {
-        for index in cardButtons.indices {
-            
-            let button = cardButtons[index]
-            let card = game.cards[index]
-            if card.isFaceUp {
-                button.setTitle(emoji(for: card), for: UIControl.State.normal)
-                button.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
-            }
-            else {
-                button.setTitle("", for: UIControl.State.normal)
-                if card.isMatched {
-                    button.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
-                } else { button.backgroundColor = #colorLiteral(red: 1, green: 0.5781051517, blue: 0, alpha: 1) }
-            }
-            updateGameScoreLabel()
+        cardButtons.enumerated().forEach { (index, button) in
+            button.card = game.cards[index]
         }
-        
+        updateGameScoreLabel()
     }
     
-    private func emoji( for card : Card) -> String {
+    private func emoji(for card: Card) -> String {
         
         if emoji[card] == nil , emojiChoices.count > 0 {
             emoji[card] = emojiChoices.remove(at: emojiChoices.count.randomNumber)
