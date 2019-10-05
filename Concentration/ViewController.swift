@@ -18,6 +18,19 @@ class ViewController: UIViewController {
     
     // init Dictionary
     private var emoji = [Card : String]()
+
+    private let flipAnimations: [UIView.AnimationOptions] = [
+        .transitionFlipFromBottom,
+        .transitionFlipFromTop,
+        .transitionFlipFromRight,
+        .transitionFlipFromLeft
+    ]
+
+    private let flipDuration: TimeInterval = 0.5
+
+    var randomFlipAnimation: UIView.AnimationOptions {
+        return flipAnimations.randomElement()!
+    }
     
     var numberOfPairsOfCards: Int {
         return (cardButtons.count + 1) / 2
@@ -34,7 +47,7 @@ class ViewController: UIViewController {
     @IBAction private func touchCard(_ sender: UIButton) {
         let cardNumber = cardButtons.firstIndex(of: sender)!
         game.chooseCard(at: cardNumber)
-        updateViewFromModel()
+        updateViewFromModel(at: cardNumber)
     }
     
     @IBAction private func newGamePressed(_ sender: UIButton) {
@@ -54,12 +67,10 @@ class ViewController: UIViewController {
         let attributedString = NSAttributedString(string: "Счет : \(game.score)", attributes: attributes)
         scoreLabel.attributedText = attributedString
     }
-    
-    private func updateViewFromModel() {
-        for index in cardButtons.indices {
-            
-            let button = cardButtons[index]
-            let card = game.cards[index]
+
+    // Defaults to -1 means to update at new game.
+    private func updateViewFromModel(at idx: Int = -1) {
+        func updateView(button: UIButton, card: Card) {
             if card.isFaceUp {
                 button.setTitle(emoji(for: card), for: UIControl.State.normal)
                 button.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
@@ -70,6 +81,18 @@ class ViewController: UIViewController {
                     button.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
                 } else { button.backgroundColor = #colorLiteral(red: 1, green: 0.5781051517, blue: 0, alpha: 1) }
             }
+        }
+        for index in cardButtons.indices {
+            let button = cardButtons[index]
+            let card = game.cards[index]
+            if index == idx {
+                UIView.transition(with: button, duration: flipDuration, options: randomFlipAnimation, animations: {
+                    updateView(button: button, card: card)
+                }, completion: nil)
+            } else {
+                updateView(button: button, card: card)
+            }
+
             updateGameScoreLabel()
         }
         
