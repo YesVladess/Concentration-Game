@@ -11,7 +11,7 @@ struct Card {
     var isFaceUp = false
     var isMatched = false
     var wasSeen = false
-    private var identifier: Int
+    var identifier: Int
     
     private static var identifierFactory = 0
     

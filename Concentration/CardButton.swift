@@ -2,7 +2,7 @@
 //  CardButton.swift
 //  Concentration
 //
-//  Creatxed by Viktor Sokolov on 10/5/19.
+//  Created by Viktor Sokolov on 10/5/19.
 //  Copyright © 2019 Влад Кононенко. All rights reserved.
 //
 
@@ -15,9 +15,10 @@ class CardButton: UIButton {
         didSet {
             if let card = self.card {
                 if (oldValue?.isFaceUp != card.isFaceUp || oldValue?.isMatched != card.isMatched) {
+                    // with anim
                     if card.isFaceUp {
                         self.setTitle(self.emoji, for: UIControl.State.normal)
-                        self.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+                        self.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
                         UIView.transition(
                             with: self,
                             duration: 0.5,
@@ -44,8 +45,14 @@ class CardButton: UIButton {
                                 animations: nil,
                                 completion: nil
                             )
-                            self.backgroundColor =  #colorLiteral(red: 1, green: 0.5781051517, blue: 0, alpha: 1)
+                            self.backgroundColor =  #colorLiteral(red: 0.01680417731, green: 0.1983509958, blue: 1, alpha: 1)
                         }
+                    }
+                    // no anim
+                } else {
+                    if card.isFaceUp {
+                        self.setTitle(self.emoji, for: UIControl.State.normal)
+                        self.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
                     }
                 }
             }

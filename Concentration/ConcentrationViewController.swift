@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  ConcentrationViewController.swift
 //  Concentration
 //
 //  Created by Влад Кононенко on 25/06/2019.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ConcentrationViewController: UIViewController {
     
     // init game
     private lazy var game = Concentration(numberOfPairsOfCards: numberOfPairsOfCards)
@@ -17,7 +17,16 @@ class ViewController: UIViewController {
     private lazy var emojiChoices = chooseTheme()
     
     // init Dictionary
-    private var emoji = [Card : String]()
+    private var emoji = [Int : String]()
+    
+    var theme : String? {
+        didSet {
+            emoji = [:]
+            emojiChoices = chooseTheme(themeChoice: theme!)
+            setupEmojiForCards()
+            updateViewFromModel()
+        }
+    }
     
     var numberOfPairsOfCards: Int {
         return (cardButtons.count + 1) / 2
@@ -30,17 +39,19 @@ class ViewController: UIViewController {
     }
     
     @IBOutlet private var cardButtons: [CardButton]!
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupEmojiForCards()
         updateViewFromModel()
     }
-
+    
     private func setupEmojiForCards() {
-        cardButtons.enumerated().forEach { (index, button) in
-            let card = game.cards[index]
-            button.emoji = self.emoji(for: card)
+        if cardButtons != nil {
+            cardButtons.enumerated().forEach { (index, button) in
+                let card = game.cards[index]
+                button.emoji = self.emoji(for: card)
+            }
         }
     }
     
@@ -63,29 +74,30 @@ class ViewController: UIViewController {
     
     private func updateGameScoreLabel() {
         let attributes : [NSAttributedString.Key : Any ] = [
-            .strokeWidth : 5.0,
-            .strokeColor : #colorLiteral(red: 1, green: 0.5781051517, blue: 0, alpha: 1)
+            //.strokeWidth : 2.0,
+            .strokeColor : #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         ]
         let attributedString = NSAttributedString(string: "Счет : \(game.score)", attributes: attributes)
         scoreLabel.attributedText = attributedString
     }
     
     private func updateViewFromModel() {
-        cardButtons.enumerated().forEach { (index, button) in
-            button.card = game.cards[index]
+        if cardButtons != nil {
+            cardButtons.enumerated().forEach { (index, button) in
+                button.card = game.cards[index]
+            }
+            updateGameScoreLabel()
         }
-        updateGameScoreLabel()
     }
     
     private func emoji(for card: Card) -> String {
-        if emoji[card] == nil , emojiChoices.count > 0 {
-            emoji[card] = emojiChoices.remove(at: emojiChoices.count.randomNumber)
+        if emoji[card.identifier] == nil , emojiChoices.count > 0 {
+            emoji[card.identifier] = emojiChoices.remove(at: emojiChoices.count.randomNumber)
         }
-        return emoji[card] ?? "?"
+        return emoji[card.identifier] ?? "?"
     }
     
-    private func chooseTheme() -> [String] {
-        
+    private func chooseTheme(themeChoice : String = "") -> [String] {
         // Emoji sets
         var emojiSets = [[String]]()
         emojiSets.append(["😈","💀","👹","🎃","👽","👻","🤖","🤡"])
@@ -94,8 +106,22 @@ class ViewController: UIViewController {
         emojiSets.append(["😎","😳","😣","😡","🤩","🙄","😊","🥺","😓","😬"])
         emojiSets.append(["🇦🇺","🇦🇲","🇧🇷","🇧🇮","🇨🇳","🇺🇸","🇨🇿","🇱🇨","🇯🇵","🇷🇺"])
         emojiSets.append(["🚗","🚕","🚙","🚌","🚎","🏎","🚓","🚑","🚜","🚛","🚒","🚐","🚚"])
-        let theme : [String] = emojiSets[Int.random(in: 0..<emojiSets.count)]
-        return theme
+        switch themeChoice {
+        case "Halloween":
+            return emojiSets[0]
+        case "Winter":
+            return emojiSets[1]
+        case "Animals":
+            return emojiSets[2]
+        case "Faces":
+            return emojiSets[3]
+        case "Flags":
+            return emojiSets[4]
+        case "Cars":
+            return emojiSets[5]
+        default:
+            return emojiSets[Int.random(in: 0..<emojiSets.count)]
+        }
     }
 }
 

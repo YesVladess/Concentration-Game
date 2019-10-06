@@ -8,8 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		322E5C44234907FD00889A96 /* CardButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322E5C43234907FD00889A96 /* CardButton.swift */; };
+		5AD4B91D234A20E600FAAC58 /* ConcentrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F594601222C186D7001F2CEC /* ConcentrationViewController.swift */; };
+		5AD4B91F234A23D800FAAC58 /* ConcentrationThemeChooserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AD4B91E234A23D800FAAC58 /* ConcentrationThemeChooserViewController.swift */; };
 		F594601122C186D7001F2CEC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F594601022C186D7001F2CEC /* AppDelegate.swift */; };
-		F594601322C186D7001F2CEC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F594601222C186D7001F2CEC /* ViewController.swift */; };
 		F594601622C186D7001F2CEC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F594601422C186D7001F2CEC /* Main.storyboard */; };
 		F594601822C186D9001F2CEC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F594601722C186D9001F2CEC /* Assets.xcassets */; };
 		F594601B22C186D9001F2CEC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F594601922C186D9001F2CEC /* LaunchScreen.storyboard */; };
@@ -19,9 +20,10 @@
 
 /* Begin PBXFileReference section */
 		322E5C43234907FD00889A96 /* CardButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardButton.swift; sourceTree = "<group>"; };
+		5AD4B91E234A23D800FAAC58 /* ConcentrationThemeChooserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcentrationThemeChooserViewController.swift; sourceTree = "<group>"; };
 		F594600D22C186D7001F2CEC /* Concentration.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Concentration.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F594601022C186D7001F2CEC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		F594601222C186D7001F2CEC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		F594601222C186D7001F2CEC /* ConcentrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcentrationViewController.swift; sourceTree = "<group>"; };
 		F594601522C186D7001F2CEC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		F594601722C186D9001F2CEC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F594601A22C186D9001F2CEC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -61,7 +63,7 @@
 			isa = PBXGroup;
 			children = (
 				F594601022C186D7001F2CEC /* AppDelegate.swift */,
-				F594601222C186D7001F2CEC /* ViewController.swift */,
+				F594601222C186D7001F2CEC /* ConcentrationViewController.swift */,
 				F594601422C186D7001F2CEC /* Main.storyboard */,
 				F594601722C186D9001F2CEC /* Assets.xcassets */,
 				F594601922C186D9001F2CEC /* LaunchScreen.storyboard */,
@@ -69,6 +71,7 @@
 				F5C0351022C23E6D004CCFF4 /* Concentration.swift */,
 				F5C0351222C25F8D004CCFF4 /* Card.swift */,
 				322E5C43234907FD00889A96 /* CardButton.swift */,
+				5AD4B91E234A23D800FAAC58 /* ConcentrationThemeChooserViewController.swift */,
 			);
 			path = Concentration;
 			sourceTree = "<group>";
@@ -105,6 +108,7 @@
 				TargetAttributes = {
 					F594600C22C186D6001F2CEC = {
 						CreatedOnToolsVersion = 10.2.1;
+						LastSwiftMigration = 1100;
 					};
 				};
 			};
@@ -144,10 +148,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F594601322C186D7001F2CEC /* ViewController.swift in Sources */,
+				5AD4B91D234A20E600FAAC58 /* ConcentrationViewController.swift in Sources */,
 				F594601122C186D7001F2CEC /* AppDelegate.swift in Sources */,
 				F5C0351122C23E6D004CCFF4 /* Concentration.swift in Sources */,
 				F5C0351322C25F8D004CCFF4 /* Card.swift in Sources */,
+				5AD4B91F234A23D800FAAC58 /* ConcentrationThemeChooserViewController.swift in Sources */,
 				322E5C44234907FD00889A96 /* CardButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -304,7 +309,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.yesvladess.Concentration;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -323,7 +328,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.yesvladess.Concentration;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
